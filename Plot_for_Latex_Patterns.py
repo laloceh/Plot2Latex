@@ -52,9 +52,9 @@ def latexify(fig_width=None, fig_height=None, columns=1):
               'axes.labelsize': 16, # fontsize for x and y labels (was 10)
               'axes.titlesize': 8,
               'font.size': 8, # was 10
-              'legend.fontsize': 8, # was 10
-              'xtick.labelsize': 8,
-              'ytick.labelsize': 8,
+              'legend.fontsize': 10, # was 10
+              'xtick.labelsize': 10,
+              'ytick.labelsize': 10,
               'text.usetex': True,
               'figure.figsize': [fig_width,fig_height],
               'font.family': 'serif'
@@ -118,7 +118,7 @@ if __name__ == "__main__":
     '''
         Labels and Title
     '''
-    label_x = 'knn size'
+    label_x = 'top-k items'
     lab = label_x.replace(" ","")
     label_y = 'Balance error (lower is better)'
     title = ''
@@ -133,7 +133,7 @@ if __name__ == "__main__":
     '''
         Output
     '''
-    file_title = 'Yahoo!Movies (3 categories)'
+    file_title = 'Yahoo!Movies(3 categories)'
     tit = file_title.replace(" ","")
     outputfilename = tit + '_' + str(alpha).replace('.','') + '_' + lab + '_' + 'comparison_image.pdf'
     print outputfilename    
