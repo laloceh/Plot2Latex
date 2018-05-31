@@ -103,7 +103,7 @@ if __name__ == "__main__":
     '''
     latexify(columns=2)
     
-    ax = df.plot(kind='bar', rot=0)
+    ax = df.plot(kind='bar', rot=0, legend=False)
     
     bars = ax.patches
     #patterns =('-', '+', 'x','/','//','O','o','\\','\\\\')
@@ -112,6 +112,8 @@ if __name__ == "__main__":
     for bar, hatch in zip(bars, hatches):
         bar.set_hatch(hatch)
     
+    ax.legend(loc='best')
+
     
     '''
         Labels and Title
