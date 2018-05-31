@@ -5,6 +5,8 @@ Created on Thu May 17 22:33:38 2018
 
 @author: eduardo
 """
+#https://stackoverflow.com/questions/14279344/how-can-i-add-textures-to-my-bars-and-wedges
+#https://stackoverflow.com/questions/22833404/how-do-i-plot-hatched-bars-using-pandas
 
 import matplotlib.pyplot as plt
 import numpy as np
@@ -100,7 +102,16 @@ if __name__ == "__main__":
         Type of plot
     '''
     latexify(columns=2)
+    
     ax = df.plot(kind='bar', rot=0)
+    
+    bars = ax.patches
+    #patterns =('-', '+', 'x','/','//','O','o','\\','\\\\')
+    patterns =('///','xx','-','\\\\')
+    hatches = [p for p in patterns for i in range(len(df))]
+    for bar, hatch in zip(bars, hatches):
+        bar.set_hatch(hatch)
+    
     
     '''
         Labels and Title
