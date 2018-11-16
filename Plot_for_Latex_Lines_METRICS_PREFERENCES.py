@@ -1,18 +1,12 @@
 #!/usr/bin/env python2
 # -*- coding: utf-8 -*-
 """
-Created on Tue May 22 11:27:43 2018
-
-@author: eduardo
-"""
-
-#!/usr/bin/env python2
-# -*- coding: utf-8 -*-
-"""
 Created on Thu May 17 22:33:38 2018
 
 @author: eduardo
 """
+#https://stackoverflow.com/questions/14279344/how-can-i-add-textures-to-my-bars-and-wedges
+#https://stackoverflow.com/questions/22833404/how-do-i-plot-hatched-bars-using-pandas
 
 import matplotlib.pyplot as plt
 import numpy as np
@@ -96,30 +90,32 @@ if __name__ == "__main__":
     '''
         Data
     '''
-    df = pd.read_csv('random_data.txt')
-    alpha = df['alpha']
-    alpha = alpha.loc[2]
-    alpha = round(alpha,2)
-    df = df[['m1_2c','m2_2c','m1_3c','m3_3c']]
-    df.columns = ['M1 2C','M2 2C','M1 3C','M2 3C']
+    df = pd.read_csv('metrics_preferences_data_lines.txt')
+    #df = df[['e_method1','e_method2','e_fairness','e_average']]
+    #df.columns = ['2','3','4','5','6']
     df.index = [2,3,4,5,6]
-
+    #df = df.drop('id',axis=1)
+    df.columns = ['M1', 'M2', 'Fairness', 'Average']
+    #lines = df.plot.line()
+    
     '''
         Type of plot
     '''
-    
-    
     latexify(columns=2)
-    ax = df.plot(kind='bar', rot=0, legend=False)
+    styles=['bs-', 'ro-', 'g^-', 'kx-']
+    ax = df.plot(kind='line', rot=0, legend=False, style=styles)
     
     bars = ax.patches
     #patterns =('-', '+', 'x','/','//','O','o','\\','\\\\')
-    patterns =('///','xx','-','\\\\')
-    hatches = [p for p in patterns for i in range(len(df))]
+    #patterns =('///','xx','-','\\\\')
+    
+    hatches = [p for p in styles for i in range(len(df))]
     for bar, hatch in zip(bars, hatches):
         bar.set_hatch(hatch)
     
-    #ax.legend(loc='best')
+    ##ax.legend(loc='best')
+    ax.set_xticks(df.index)
+    
     ax.legend(bbox_to_anchor=(0., 1.02, 1., .102), loc=3,
            ncol=4, mode="expand", borderaxespad=0.)
     
@@ -128,7 +124,7 @@ if __name__ == "__main__":
     '''
     label_x = 'Group size'
     lab = label_x.replace(" ","")
-    label_y = 'Balance error (lower is better)'
+    label_y = 'm-envy-freeness'
     title = ''
     tit = title.replace(" ","")
     
@@ -141,10 +137,11 @@ if __name__ == "__main__":
     '''
         Output
     '''
-    file_title = 'Yahoo! Movies (2 and 3 categories)'
+    file_title = 'm-envy-freeness YahooMovies (3 categories)'
     tit = file_title.replace(" ","")
-    outputfilename = tit + '_' + str(alpha).replace('.','') + '_' + lab + '_' + 'comparison_image.pdf'
-    print outputfilename      
+    #outputfilename = tit + '_' + 'comparison_image.pdf'
+    outputfilename = tit + '_' + lab + '_' + 'comparison_image.pdf'
+    print outputfilename    
 
     plt.savefig(outputfilename)
     

@@ -7,6 +7,7 @@ Created on Thu May 17 22:33:38 2018
 """
 
 import matplotlib.pyplot as plt
+import sys
 import numpy as np
 import pandas as pd
 import matplotlib
@@ -47,12 +48,12 @@ def latexify(fig_width=None, fig_height=None, columns=1):
 
     params = {'backend': 'ps',
               'text.latex.preamble': ['\usepackage{gensymb}'],
-              'axes.labelsize': 16, # fontsize for x and y labels (was 10)
-              'axes.titlesize': 8,
-              'font.size': 8, # was 10
-              'legend.fontsize': 10, # was 10
-              'xtick.labelsize': 10,
-              'ytick.labelsize': 10,
+              'axes.labelsize': 20, # fontsize for x and y labels (was 10)
+              'axes.titlesize': 18,
+              'font.size': 18, # was 10
+              'legend.fontsize': 16, # was 10
+              'xtick.labelsize': 20,
+              'ytick.labelsize': 20,
               'text.usetex': True,
               'figure.figsize': [fig_width,fig_height],
               'font.family': 'serif'
@@ -89,9 +90,11 @@ if __name__ == "__main__":
         Data
     '''
     df = pd.read_csv('random_data.txt')
+    
     df.columns = ['M1','M2']
-    df.index = ['mean', 'max', 'min', 'geom mean', 'sum', 'balance']
+    df.index = ['mean', 'max', 'min', 'geomean', 'sum', 'balance']
 
+    
     '''
         Type of plot
     '''
@@ -105,7 +108,9 @@ if __name__ == "__main__":
     for bar, hatch in zip(bars, hatches):
         bar.set_hatch(hatch)
     
-    ax.legend(loc='best')
+    #ax.legend(loc='best')
+    ax.legend(bbox_to_anchor=(0., 1.02, 1., .102), loc=3,
+           ncol=4, mode="expand", borderaxespad=0.)
     
     '''
         Labels and Title
@@ -125,7 +130,7 @@ if __name__ == "__main__":
     '''
         Output
     '''
-    file_title = 'TripAdvisor'
+    file_title = 'Yahoo!Movies (3 categories)'
     tit = file_title.replace(" ","")
     outputfilename = tit + '_' + str(alpha).replace('.','') + '_' + lab + '_' + 'comparison_image.pdf'
     print outputfilename    

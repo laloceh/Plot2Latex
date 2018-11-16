@@ -1,18 +1,12 @@
 #!/usr/bin/env python2
 # -*- coding: utf-8 -*-
 """
-Created on Tue May 22 11:27:43 2018
-
-@author: eduardo
-"""
-
-#!/usr/bin/env python2
-# -*- coding: utf-8 -*-
-"""
 Created on Thu May 17 22:33:38 2018
 
 @author: eduardo
 """
+#https://stackoverflow.com/questions/14279344/how-can-i-add-textures-to-my-bars-and-wedges
+#https://stackoverflow.com/questions/22833404/how-do-i-plot-hatched-bars-using-pandas
 
 import matplotlib.pyplot as plt
 import numpy as np
@@ -55,12 +49,12 @@ def latexify(fig_width=None, fig_height=None, columns=1):
 
     params = {'backend': 'ps',
               'text.latex.preamble': ['\usepackage{gensymb}'],
-              'axes.labelsize': 20, # fontsize for x and y labels (was 10)
+              'axes.labelsize': 18, # fontsize for x and y labels (was 10)
               'axes.titlesize': 18,
               'font.size': 18, # was 10
               'legend.fontsize': 16, # was 10
-              'xtick.labelsize': 20,
-              'ytick.labelsize': 20,
+              'xtick.labelsize': 18,
+              'ytick.labelsize': 18,
               'text.usetex': True,
               'figure.figsize': [fig_width,fig_height],
               'font.family': 'serif'
@@ -96,39 +90,38 @@ if __name__ == "__main__":
     '''
         Data
     '''
-    df = pd.read_csv('random_data.txt')
-    alpha = df['alpha']
-    alpha = alpha.loc[2]
-    alpha = round(alpha,2)
-    df = df[['m1_2c','m2_2c','m1_3c','m3_3c']]
-    df.columns = ['M1 2C','M2 2C','M1 3C','M2 3C']
+    df = pd.read_csv('random_data_lines.txt')
+    #df = df[['e_method1','e_method2','e_fairness','e_average']]
+    #df.columns = ['2','3','4','5','6']
     df.index = [2,3,4,5,6]
-
+    df = df.drop('id',axis=1)
+    df.columns = ['TripAdvisor', 'Yahoo!Movies (2 cat)', 'Yahoo!Movies (3 cat)']
+    #lines = df.plot.line()
+    
     '''
         Type of plot
     '''
-    
-    
     latexify(columns=2)
-    ax = df.plot(kind='bar', rot=0, legend=False)
+    styles=['bs-', 'ro-', 'y^-']
+    ax = df.plot(kind='line', rot=0, legend=False, style=styles)
     
     bars = ax.patches
     #patterns =('-', '+', 'x','/','//','O','o','\\','\\\\')
-    patterns =('///','xx','-','\\\\')
-    hatches = [p for p in patterns for i in range(len(df))]
+    #patterns =('///','xx','-','\\\\')
+    
+    hatches = [p for p in styles for i in range(len(df))]
     for bar, hatch in zip(bars, hatches):
         bar.set_hatch(hatch)
     
-    #ax.legend(loc='best')
-    ax.legend(bbox_to_anchor=(0., 1.02, 1., .102), loc=3,
-           ncol=4, mode="expand", borderaxespad=0.)
+    ax.legend(loc='best')
+    ax.set_xticks(df.index)
     
     '''
         Labels and Title
     '''
     label_x = 'Group size'
     lab = label_x.replace(" ","")
-    label_y = 'Balance error (lower is better)'
+    label_y = 'Running time (seconds)'
     title = ''
     tit = title.replace(" ","")
     
@@ -141,10 +134,10 @@ if __name__ == "__main__":
     '''
         Output
     '''
-    file_title = 'Yahoo! Movies (2 and 3 categories)'
+    file_title = 'RunningTime'
     tit = file_title.replace(" ","")
-    outputfilename = tit + '_' + str(alpha).replace('.','') + '_' + lab + '_' + 'comparison_image.pdf'
-    print outputfilename      
+    outputfilename = tit + '_' + 'comparison_image.pdf'
+    print outputfilename    
 
     plt.savefig(outputfilename)
     
