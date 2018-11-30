@@ -93,7 +93,7 @@ if __name__ == "__main__":
     df = pd.read_csv('metrics_preferences_data_lines.txt')
     #df = df[['e_method1','e_method2','e_fairness','e_average']]
     #df.columns = ['2','3','4','5','6']
-    df.index = [2,3,4,5,6]
+    df.index = [2,3,4,5,6,7]
     #df = df.drop('id',axis=1)
     df.columns = ['M1', 'M2', 'Fairness', 'Average']
     #lines = df.plot.line()
@@ -104,6 +104,13 @@ if __name__ == "__main__":
     latexify(columns=2)
     styles=['bs-', 'ro-', 'g^-', 'kx-']
     ax = df.plot(kind='line', rot=0, legend=False, style=styles)
+    
+    '''
+        Plot upper and lower bounds
+    '''
+    ax.plot([2, 3, 4, 5, 6, 7], [1.0, 1.0, 0.75, 0.66667, 1.0, 0.86],'r--')
+    
+    ax.plot([2, 3, 4, 5, 6, 7], [0.5, 0.333, 0.25, 0.2, 0.333, 0.29], 'b--')
     
     bars = ax.patches
     #patterns =('-', '+', 'x','/','//','O','o','\\','\\\\')
@@ -119,7 +126,9 @@ if __name__ == "__main__":
     ax.legend(bbox_to_anchor=(0., 1.02, 1., .102), loc=3,
            ncol=4, mode="expand", borderaxespad=0.)
     
+    
 
+    
     '''
         Labels and Title
     '''
@@ -138,7 +147,7 @@ if __name__ == "__main__":
     '''
         Output
     '''
-    file_title = 'm-envy-freeness YahooMovies (2 categories) Close to Bound'
+    file_title = 'm-envy-freeness YahooMovies (3 categories) 7 Bounds'
     tit = file_title.replace(" ","")
     #outputfilename = tit + '_' + 'comparison_image.pdf'
     outputfilename = tit + '_' + lab + '_' + 'comparison_image.pdf'
