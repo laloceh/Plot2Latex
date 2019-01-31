@@ -89,12 +89,12 @@ if __name__ == "__main__":
     '''
         Data
     '''
-    df = pd.read_csv('random_data.txt')
+    df = pd.read_csv('random_data_agg.txt')
     
     df.columns = ['M1','M2']
     df.index = ['mean', 'max', 'min', 'geomean', 'sum', 'balance']
 
-    
+    print df    
     '''
         Type of plot
     '''
@@ -130,7 +130,7 @@ if __name__ == "__main__":
     '''
         Output
     '''
-    file_title = 'Yahoo!Movies (3 categories)'
+    file_title = 'BeerAdvocate (3 categories)'
     tit = file_title.replace(" ","")
     outputfilename = tit + '_' + str(alpha).replace('.','') + '_' + lab + '_' + 'comparison_image.pdf'
     print outputfilename    

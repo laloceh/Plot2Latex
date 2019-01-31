@@ -94,8 +94,8 @@ if __name__ == "__main__":
     alpha = df['alpha']
     alpha = alpha.loc[2]
     alpha = round(alpha,2)
-    df = df[['e_method1','e_method2','e_fairness','e_average']]
-    df.columns = ['M1','M2','Fairness','Average']
+    df = df[['e_method1','e_method2','e_fairness','e_average','e_GRmodel']]
+    df.columns = ['M1','M2','Fairness','Average','GR']
     df.index = [5,10,15,20,25]
 
     '''
@@ -107,7 +107,7 @@ if __name__ == "__main__":
     
     bars = ax.patches
     #patterns =('-', '+', 'x','/','//','O','o','\\','\\\\')
-    patterns =('///','xx','-','\\\\')
+    patterns =('///','xx','-','\\\\', '||')
     hatches = [p for p in patterns for i in range(len(df))]
     for bar, hatch in zip(bars, hatches):
         bar.set_hatch(hatch)
@@ -119,12 +119,12 @@ if __name__ == "__main__":
     #ax.legend.get_frame().set_alpha(0.5)
     
     ax.legend(bbox_to_anchor=(0., 1.02, 1., .102), loc=3,
-           ncol=4, mode="expand", borderaxespad=0.)
+           ncol=3, mode="expand", borderaxespad=0.)
     
     '''
         Labels and Title
     '''
-    label_x = 'top-Z items'
+    label_x = 'top-Z items'  #$\\alpha$ value
     lab = label_x.replace(" ","")
     label_y = 'Balance error (lower is better)'
     title = ''
@@ -139,12 +139,12 @@ if __name__ == "__main__":
     '''
         Output
     '''
-    file_title = 'Yahoo!Movies (3 categories)'
+    file_title = 'Beers with GRmodel (2 categories)'
     tit = file_title.replace(" ","")
     outputfilename = tit + '_' + str(alpha).replace('.','') + '_' + lab + '_' + 'comparison_image.pdf'
     print outputfilename    
 
-    plt.savefig(outputfilename)
+    plt.savefig(outputfilename, bbox_inches='tight')
     
 
         

@@ -8,6 +8,7 @@ Created on Thu May 17 22:33:38 2018
 #https://stackoverflow.com/questions/14279344/how-can-i-add-textures-to-my-bars-and-wedges
 #https://stackoverflow.com/questions/22833404/how-do-i-plot-hatched-bars-using-pandas
 
+from matplotlib.ticker import FormatStrFormatter
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
@@ -53,11 +54,11 @@ def latexify(fig_width=None, fig_height=None, columns=1):
               'axes.titlesize': 18,
               'font.size': 18, # was 10
               'legend.fontsize': 16, # was 10
-              'xtick.labelsize': 20,
-              'ytick.labelsize': 20,
+              'xtick.labelsize': 20, #was 20
+              'ytick.labelsize': 18, # was 20
               'text.usetex': True,
               'figure.figsize': [fig_width,fig_height],
-              'font.family': 'serif'
+              'font.family': 'serif' # was serif
     }
 
     matplotlib.rcParams.update(params)
@@ -90,19 +91,20 @@ if __name__ == "__main__":
     '''
         Data
     '''
-    df = pd.read_csv('metrics_preferences_data_lines.txt')
+    df = pd.read_csv('metrics_consensus_data_lines.txt')
     #df = df[['e_method1','e_method2','e_fairness','e_average']]
     #df.columns = ['2','3','4','5','6']
     df.index = [2,3,4,5,6]
     #df = df.drop('id',axis=1)
-    df.columns = ['M1', 'M2', 'Fairness', 'Average']
+    df.columns = ['M1', 'M2', 'Fairness', 'Average', 'GR']
     #lines = df.plot.line()
+    print df
     
     '''
         Type of plot
     '''
     latexify(columns=2)
-    styles=['bs-', 'ro-', 'g^-', 'kx-']
+    styles=['bs-', 'ro-', 'g^-', 'kx-', 'yv-']
     ax = df.plot(kind='line', rot=0, legend=False, style=styles)
     
     bars = ax.patches
@@ -116,8 +118,13 @@ if __name__ == "__main__":
     ##ax.legend(loc='best')
     ax.set_xticks(df.index)
     
+    ticks = ax.get_yticks()
+    #ax.set_yticklabels(ticks)
+    print ticks
+    ax.yaxis.set_major_formatter(FormatStrFormatter('%.5f'))
+    
     ax.legend(bbox_to_anchor=(0., 1.02, 1., .102), loc=3,
-           ncol=4, mode="expand", borderaxespad=0.)
+           ncol=3, mode="expand", borderaxespad=0.)
     
 
     '''
@@ -125,7 +132,7 @@ if __name__ == "__main__":
     '''
     label_x = 'Group size'
     lab = label_x.replace(" ","")
-    label_y = 'm-envy-freeness'
+    label_y = 'Consensus'
     title = ''
     tit = title.replace(" ","")
     
@@ -138,13 +145,13 @@ if __name__ == "__main__":
     '''
         Output
     '''
-    file_title = 'm-envy-freeness YahooMovies (2 categories) Close to Bound'
+    file_title = 'consensus YahooMovies with GR (3 categories)'
     tit = file_title.replace(" ","")
     #outputfilename = tit + '_' + 'comparison_image.pdf'
     outputfilename = tit + '_' + lab + '_' + 'comparison_image.pdf'
     print outputfilename    
 
-    plt.savefig(outputfilename)
+    plt.savefig(outputfilename, bbox_inches='tight')
     
 
         

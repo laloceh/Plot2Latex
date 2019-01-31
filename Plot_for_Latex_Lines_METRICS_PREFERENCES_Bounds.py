@@ -13,6 +13,7 @@ import numpy as np
 import pandas as pd
 import matplotlib
 from math import sqrt
+import sys
 SPINE_COLOR = 'gray'
 matplotlib.style.use('ggplot')
 
@@ -90,27 +91,29 @@ if __name__ == "__main__":
     '''
         Data
     '''
-    df = pd.read_csv('metrics_preferences_data_lines.txt')
+    df = pd.read_csv('metrics_envy_freeness_data_lines.txt')
     #df = df[['e_method1','e_method2','e_fairness','e_average']]
     #df.columns = ['2','3','4','5','6']
     df.index = [2,3,4,5,6,7]
     #df = df.drop('id',axis=1)
-    df.columns = ['M1', 'M2', 'Fairness', 'Average']
+    df.columns = ['M1', 'M2', 'Fairness', 'Average', 'GR']
     #lines = df.plot.line()
-    
+    print df
+
     '''
         Type of plot
     '''
     latexify(columns=2)
-    styles=['bs-', 'ro-', 'g^-', 'kx-']
+    styles=['bs-', 'ro-', 'g^-', 'kx-', 'yv-']
     ax = df.plot(kind='line', rot=0, legend=False, style=styles)
     
     '''
         Plot upper and lower bounds
     '''
-    ax.plot([2, 3, 4, 5, 6, 7], [1.0, 1.0, 0.75, 0.66667, 1.0, 0.86],'r--')
-    
-    ax.plot([2, 3, 4, 5, 6, 7], [0.5, 0.333, 0.25, 0.2, 0.333, 0.29], 'b--')
+    #ax.plot([2, 3, 4, 5, 6, 7], [1.0, 0.666, 0.5, 0.4, 0.666, 0.57],'r--') #2 Cats
+    ax.plot([2, 3, 4, 5, 6, 7], [1.0, 1.0, 0.75, 0.666, 1.0, 0.86],'r--') #3 Cats    
+
+    ax.plot([2, 3, 4, 5, 6, 7], [0.5, 0.333, 0.25, 0.2, 0.333, .29], 'b--') #2 Cats
     
     bars = ax.patches
     #patterns =('-', '+', 'x','/','//','O','o','\\','\\\\')
@@ -124,7 +127,7 @@ if __name__ == "__main__":
     ax.set_xticks(df.index)
     
     ax.legend(bbox_to_anchor=(0., 1.02, 1., .102), loc=3,
-           ncol=4, mode="expand", borderaxespad=0.)
+           ncol=3, mode="expand", borderaxespad=0.)
     
     
 
@@ -147,13 +150,13 @@ if __name__ == "__main__":
     '''
         Output
     '''
-    file_title = 'm-envy-freeness YahooMovies (3 categories) 7 Bounds'
+    file_title = 'm-envy-freeness YahooMovies with GR Bounds (3 categories)'
     tit = file_title.replace(" ","")
     #outputfilename = tit + '_' + 'comparison_image.pdf'
     outputfilename = tit + '_' + lab + '_' + 'comparison_image.pdf'
     print outputfilename    
 
-    plt.savefig(outputfilename)
+    plt.savefig(outputfilename, bbox_inches='tight')
     
 
         
