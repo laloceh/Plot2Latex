@@ -96,7 +96,7 @@ if __name__ == "__main__":
     alpha = round(alpha,2)
     df = df[['e_method1','e_method2','e_fairness','e_average','e_GRmodel']]
     df.columns = ['M1','M2','Fairness','Average','GR']
-    df.index = [5,10,15,20,25]
+    df.index = [0.4, 0.5, 0.6, 0.7, 0.8]
 
     '''
         Type of plot
@@ -124,7 +124,7 @@ if __name__ == "__main__":
     '''
         Labels and Title
     '''
-    label_x = 'top-Z items'  #$\\alpha$ value
+    label_x = '$\\alpha$ value'  #$\\alpha$ value
     lab = label_x.replace(" ","")
     label_y = 'Balance error (lower is better)'
     title = ''
@@ -139,7 +139,7 @@ if __name__ == "__main__":
     '''
         Output
     '''
-    file_title = 'Beers with GRmodel (2 categories)'
+    file_title = 'Yahoo!Movies_GR (2 categories)'
     tit = file_title.replace(" ","")
     outputfilename = tit + '_' + str(alpha).replace('.','') + '_' + lab + '_' + 'comparison_image.pdf'
     print outputfilename    

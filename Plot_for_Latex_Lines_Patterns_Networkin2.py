@@ -13,7 +13,6 @@ import numpy as np
 import pandas as pd
 import matplotlib
 from math import sqrt
-import sys
 SPINE_COLOR = 'gray'
 matplotlib.style.use('ggplot')
 
@@ -50,12 +49,12 @@ def latexify(fig_width=None, fig_height=None, columns=1):
 
     params = {'backend': 'ps',
               'text.latex.preamble': ['\usepackage{gensymb}'],
-              'axes.labelsize': 20, # fontsize for x and y labels (was 10)
+              'axes.labelsize': 18, # fontsize for x and y labels (was 10)
               'axes.titlesize': 18,
               'font.size': 18, # was 10
               'legend.fontsize': 16, # was 10
-              'xtick.labelsize': 20,
-              'ytick.labelsize': 20,
+              'xtick.labelsize': 18,
+              'ytick.labelsize': 18,
               'text.usetex': True,
               'figure.figsize': [fig_width,fig_height],
               'font.family': 'serif'
@@ -91,29 +90,21 @@ if __name__ == "__main__":
     '''
         Data
     '''
-    df = pd.read_csv('metrics_envy_freeness_data_lines.txt')
+    df = pd.read_csv('html_data_accuracy.txt')
     #df = df[['e_method1','e_method2','e_fairness','e_average']]
     #df.columns = ['2','3','4','5','6']
-    df.index = [2,3,4,5,6,7]
-    #df = df.drop('id',axis=1)
-    df.columns = ['M1', 'M2', 'Fairness', 'Average', 'GR']
+    df.index = [10, 30, 50]
+    df = df.drop('id',axis=1)
+    #df.columns = ['TripAdvisor', 'Yahoo!Movies (2 cat)', 'Yahoo!Movies (3 cat)']
+    df.columns = ["50","100","200"]
     #lines = df.plot.line()
-    print df
-
+    
     '''
         Type of plot
     '''
     latexify(columns=2)
-    styles=['bs-', 'ro-', 'g^-', 'kx-', 'yv-']
+    styles=['bs-', 'ro-', 'y^-']
     ax = df.plot(kind='line', rot=0, legend=False, style=styles)
-    
-    '''
-        Plot upper and lower bounds
-    '''
-    ax.plot([2, 3, 4, 5, 6, 7], [1.0, 0.666, 0.5, 0.4, 0.666, 0.57],'r--') #2 Cats
-    #ax.plot([2, 3, 4, 5, 6, 7], [1.0, 1.0, 0.75, 0.666, 1.0, 0.86],'r--') #3 Cats    
-
-    ax.plot([2, 3, 4, 5, 6, 7], [0.5, 0.333, 0.25, 0.2, 0.333, .29], 'b--') #2 Cats
     
     bars = ax.patches
     #patterns =('-', '+', 'x','/','//','O','o','\\','\\\\')
@@ -123,21 +114,15 @@ if __name__ == "__main__":
     for bar, hatch in zip(bars, hatches):
         bar.set_hatch(hatch)
     
-    ##ax.legend(loc='best')
+    ax.legend(loc='best')
     ax.set_xticks(df.index)
-    
-    ax.legend(bbox_to_anchor=(0., 1.02, 1., .102), loc=3,
-           ncol=3, mode="expand", borderaxespad=0.)
-    
-    
-
     
     '''
         Labels and Title
     '''
-    label_x = 'Group size'
+    label_x = 'Sequence Length'
     lab = label_x.replace(" ","")
-    label_y = 'm-envy-freeness'
+    label_y = 'Accuracy'
     title = ''
     tit = title.replace(" ","")
     
@@ -150,13 +135,12 @@ if __name__ == "__main__":
     '''
         Output
     '''
-    file_title = 'm-envy-freeness TripAdvisor with GR Bounds'
+    file_title = 'DifferentVectors'
     tit = file_title.replace(" ","")
-    #outputfilename = tit + '_' + 'comparison_image.pdf'
-    outputfilename = tit + '_' + lab + '_' + 'comparison_image.pdf'
+    outputfilename = tit + '_' + 'comparison_image.pdf'
     print outputfilename    
 
-    plt.savefig(outputfilename, bbox_inches='tight')
+    plt.savefig(outputfilename)
     
 
         
